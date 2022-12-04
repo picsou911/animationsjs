@@ -25,3 +25,51 @@ function typewriter(text, index) {
 setTimeout(() => {
     typewriter(txt, 0)
 }, 300)
+
+//push down button
+heroPushLink.addEventListener("click", slideDown)
+
+function slideDown(e) {
+    e.preventDefault()
+    window.scrollTo({
+        top: document.querySelector(`${e.target.getAttribute("href")}`).offsetTop,
+        behavior: "smooth"
+    })
+}
+
+// Scroll animations
+
+const generalAnimatedElements = [
+    ...document.querySelectorAll("h2"),
+    ...document.querySelectorAll(".section-subtitle")
+]
+
+const discoverSectionElements = [
+    document.querySelector(".text-discover-content h3"),
+    document.querySelector(".text-discover-content p"),
+    document.querySelector(".discover-link"),
+    document.querySelector(".discover-main-img"),
+];
+
+const slideIncontent = [
+    ...document.querySelectorAll(".side-apparition-container")
+];
+
+const animatedContents = [
+    ...generalAnimatedElements,
+    ...discoverSectionElements,
+    ...slideIncontent
+]
+
+const intersectionObserver = new IntersectionObserver (handleIntersect, {rootMargin: "-10%"})
+
+animatedContents.forEach(el => intersectionObserver.observe(el))
+
+function handleIntersect(entries) {
+    entries.forEach(entry => {
+        if(entry.isIntersecting) {
+            entry.target.classList.add("active");
+            intersectionObserver.unobserve(entry.target)
+        }
+    })
+}
